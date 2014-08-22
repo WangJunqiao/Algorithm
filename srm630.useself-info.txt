@@ -1,0 +1,25 @@
+srm630 div1 500pt： 给你一个后缀数组，要你重构出一个字符串满足这个后缀数组，并且要求用到的字符种类最少。
+比如SA={3, 2, 1, 0}，那么答案就是1，可能的字符串可以是aaaa。
+
+solution：
+最重要的一点就是这个后缀数组的顺序是始终固定的，并且都是<的关系，没有=。所以我们要做的就是保证SA[i]和SA[i+1]这n-1个<的关系。
+int SuffixArrayDiv1::minimalCharacters(vector <int> SA) {
+    //assume the result string is str
+	int n = SA.size(), ans = n;
+	int pos[55];
+	for (int i = 0; i < SA.size(); i ++) {
+        pos[SA[i]] = i;
+	}
+	pos[n] = -1; //the '\0' char is the smallest!!
+	for (int i = 0; i < SA.size() - 1; i ++) {
+        //make sure SA[i] is smaller than SA[i + 1]
+        //when we compare SA[i] with SA[i + 1], if suffix[SA[i] + 1] is smaller than suffix[SA[i + 1] + 1], we can make str[SA[i]] = str[SA[i + 1]]
+
+        //NOTICE: the order of SA is ALWAYS hold!!! So we can use this very important information.
+        if (pos[SA[i] + 1] < pos[SA[i + 1] + 1])
+            ans --;
+	}
+	return ans;
+}
+
+
