@@ -1,0 +1,12 @@
+//java×Ö·û´®Á÷
+//input
+String s="124 4523 5423";
+Scanner reader=new Scanner(s);
+while( reader.hasNext()){
+	int a=reader.nextInt();
+	System.out.println(a);
+}
+//print
+StringWriter w=new StringWriter();
+w.write("hello!");
+System.out.println(w.toString());

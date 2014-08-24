@@ -1,0 +1,3 @@
+Arrays.fill() 相当于memset
+Arrays.sort() 相当于sort
+

@@ -1,0 +1,162 @@
+
+
+
+
+
+////////////////////////////////////////////////////////////
+对应这八种基本数据类型有八个封装类 ，封装类是继承自Object的Java类。
+而基本数据类型所描述的含义与C等相同。 
+基本类型byte,char,short,int,long,float,double,boolean，这些不是对象
+原始类型Byte,Character.....这些是对象
+
+基本类型                          原始类型(用于泛型)
+boolean         true&false        Boolean
+char               16             Character
+byte               8              Byte
+short              16             Short
+int                  32           Integer
+long               64             Long
+float               32            Float
+double           64               Double
+                                  
+string                            String
+				  BigInteger    高精度整型
+                                  BigDecimal  高精度浮点型 
+////////////////////////////////////////////////////////////
+
+map
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+import java.lang.*;
+
+// Map类下有 HashMap TreeMap 等等...
+class ACM
+{
+	public static HashMap<String,Integer> HM=
+		new HashMap<String,Integer>();
+	public static HashMap<Integer,BigInteger> KK;
+	
+	public static TreeMap<String,Integer> TM=
+		new TreeMap<String,Integer>();
+	
+	//遍历Map
+	public static void PrintMap(Map mp)
+	{
+		Iterator it=mp.entrySet().iterator();
+		
+		while(it.hasNext())
+		{
+			Map.Entry entry=
+				(Map.Entry) it.next();
+			System.out.println(entry.getKey()+"  "+entry.getValue());
+		}
+		/*
+		 * 
+		Iterator it=TM.entrySet().iterator();
+	
+		while(it.hasNext())
+		{
+			Map.Entry<String, Integer> entry=
+				(Map.Entry<String, Integer>)it.next();
+			System.out.println(entry.getKey()+"  "+entry.getValue());
+		}
+		 */
+	}
+	public static void TestTreeMap()
+	{
+		System.out.println("Begin to Test TreeMap");
+		TM.put("dd", 4);
+		TM.put("aa", 99);
+		TM.put("bb", 44);
+		
+		PrintMap(TM);
+	}
+	public static void TestHashMap()
+	{
+		System.out.println("Begin to Test HashMap");
+		HM.put("dd", 4);
+		HM.put("aa", 99);
+		HM.put("bb", 44);
+		
+		PrintMap(HM);
+	}
+	
+	public static void main(String[] args)
+	{
+		TestTreeMap();
+		TestHashMap();
+
+		//移除
+		HM.remove("aa");
+		if( HM.isEmpty() ) System.out.println("empty");
+		if( HM.containsKey("dd") ) 
+			System.out.println("the value of dd is "+HM.get("dd"));
+		PrintMap(HM);
+	}
+}
+//////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////
+大数BigInteger开根号,二分的
+static public BigInteger sqrt(BigInteger n)
+	{
+		BigInteger L=BigInteger.valueOf(0) , R=n , M;
+		if( L.multiply(L).compareTo(n)==0) return L;
+		if( L.multiply(L).compareTo(n)==0) return R;
+		while( L.add(BigInteger.valueOf(1)).compareTo(R)<0 )
+		{
+			M=L.add(R).divide(BigInteger.valueOf(2));
+			if( M.multiply(M).compareTo(n)<=0 ) L=M;
+			else R=M;
+		}
+		return L;
+	}
+
+
+//java计算时间差,不要导入util包
+long startT=new Date().getTime();
+int count=1000000000;
+while( count!=0 ) count--;
+long endT=new Date().getTime();
+
+
+
+//TreeMap用法 pku2418
+import java.io.*;
+import java.util.*;
+class Main{
+	public static void main(String[] args)throws IOException{
+		//Scanner reader=
+		//	new Scanner(new BufferedInputStream(System.in));
+		BufferedReader reader=
+			new BufferedReader(new InputStreamReader(System.in));
+		TreeMap<String,Integer> mp=
+			new TreeMap<String,Integer>();
+		int Num=0;
+		
+		//System.out.println("ddd");
+		
+		while( true ){
+			String s=reader.readLine(); if( s==null ) break; //
+			if( mp.containsKey(s) ){
+				Map.Entry<String,Integer> entry=mp.ceilingEntry(s);
+				mp.put(entry.getKey(), entry.getValue()+1);
+			}else{
+				mp.put(s, 1);
+			}
+			Num++;
+		}
+		Iterator<Map.Entry<String, Integer> > it=mp.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Integer> entry=it.next();
+			System.out.printf("%s %.4f\n",entry.getKey(),100.0*entry.getValue()/Num );
+		}
+		reader.close();
+	}
+}
+
+

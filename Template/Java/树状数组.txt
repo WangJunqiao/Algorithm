@@ -1,0 +1,27 @@
+	//Ê÷×´Êý×é
+	final int maxn=110000;
+	class IndexArray{
+		long[] sum;
+		int n;
+		public IndexArray(){
+			sum=new long[maxn];
+		}
+		void init(int n){ //1~n
+			this.n=n;
+			Arrays.fill(sum, 1, n, 0);
+		}
+		void update(int i,long val){
+			while(i<=n){
+				sum[i]+=val;
+				i+=Integer.lowestOneBit(i);
+			}
+		}
+		long get_sum(int i){
+			long ret=0;
+			while(i>0){
+				ret+=sum[i];
+				i-=Integer.lowestOneBit(i);
+			}
+			return ret;
+		}
+	}//********************************

@@ -1,0 +1,9 @@
+import java.text.*; 
+
+//格式.....这里0指一位数字，#指除0以外的数字。
+import java.text.DecimalFormat;
+DecimalFormat f = new DecimalFormat("#.00#"); 
+DecimalFormat g = new DecimalFormat("0.000"); 
+double a = 123.45678, b = 0.12;
+System.out.println(f.format(a));
+System.out.println(f.format(b));

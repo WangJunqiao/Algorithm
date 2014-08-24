@@ -1,0 +1,124 @@
+//圆
+#include <iostream>
+#include <math.h>
+#include <algorithm>
+using namespace std;
+
+#define eps 1e-8
+const double PI=acos(-1.0);
+struct P{double x,y;};
+inline int sgn(double a){
+	return a>eps ? 1 : (a<-eps?-1:0);
+}
+
+double xmult(P p1,P p2,P p0){
+	return (p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y);
+}
+
+double dist(P p1,P p2){
+	return sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y));
+}
+
+double disptoline(P p,P l1,P l2){
+	return fabs(xmult(p,l1,l2))/dist(l1,l2);
+}
+
+P intersection(P u1,P u2,P v1,P v2){
+	P ret=u1;
+	double t=((u1.x-v1.x)*(v1.y-v2.y)-(u1.y-v1.y)*(v1.x-v2.x))
+			/((u1.x-u2.x)*(v1.y-v2.y)-(u1.y-u2.y)*(v1.x-v2.x));
+	ret.x+=(u2.x-u1.x)*t;
+	ret.y+=(u2.y-u1.y)*t;
+	return ret;
+}
+
+//判直线和圆相交,包括相切
+int intersect_line_circle(P c,double r,P l1,P l2){
+	return disptoline(c,l1,l2)<r+eps;
+}
+
+//判线段和圆相交,包括端点和相切
+int intersect_seg_circle(P c,double r,P l1,P l2){
+	double t1=dist(c,l1)-r,t2=dist(c,l2)-r;
+	P t=c;
+	if (t1<eps||t2<eps)
+		return t1>-eps||t2>-eps;
+	t.x+=l1.y-l2.y;
+	t.y+=l2.x-l1.x;
+	return xmult(l1,c,t)*xmult(l2,c,t)<eps&&disptoline(c,l1,l2)-r<eps;
+}
+
+//判圆和圆相交,包括相切
+int intersect_circle_circle(P c1,double r1,P c2,double r2){
+	return dist(c1,c2)<r1+r2+eps&&dist(c1,c2)>fabs(r1-r2)-eps;
+}
+
+//计算圆上到点p最近点,如p与圆心重合,返回p本身
+P dot_to_circle(P c,double r,P p){
+	P u,v;
+	if (dist(p,c)<eps)
+		return p;
+	u.x=c.x+r*fabs(c.x-p.x)/dist(c,p);
+	u.y=c.y+r*fabs(c.y-p.y)/dist(c,p)*((c.x-p.x)*(c.y-p.y)<0?-1:1);
+	v.x=c.x-r*fabs(c.x-p.x)/dist(c,p);
+	v.y=c.y-r*fabs(c.y-p.y)/dist(c,p)*((c.x-p.x)*(c.y-p.y)<0?-1:1);
+	return dist(u,p)<dist(v,p)?u:v;
+}
+
+//计算直线与圆的交点,保证直线与圆有交点
+//计算线段与圆的交点可用这个函数后判点是否在线段上
+void intersection_line_circle(P c,double r,P l1,P l2,P& p1,P& p2){
+	P p=c;
+	double t;
+	p.x+=l1.y-l2.y;
+	p.y+=l2.x-l1.x;
+	p=intersection(p,c,l1,l2);
+	t=sqrt(r*r-dist(p,c)*dist(p,c))/dist(l1,l2);
+	p1.x=p.x+(l2.x-l1.x)*t;
+	p1.y=p.y+(l2.y-l1.y)*t;
+	p2.x=p.x-(l2.x-l1.x)*t;
+	p2.y=p.y-(l2.y-l1.y)*t;
+}
+
+//计算圆与圆的交点,保证圆与圆有交点,圆心不重合
+void intersection_circle_circle(P c1,double r1,P c2,double r2,P& p1,P& p2){
+	P u,v;
+	double t;
+	t=(1+(r1*r1-r2*r2)/dist(c1,c2)/dist(c1,c2))/2;
+	u.x=c1.x+(c2.x-c1.x)*t;
+	u.y=c1.y+(c2.y-c1.y)*t;
+	v.x=u.x+c1.y-c2.y;
+	v.y=u.y-c1.x+c2.x;
+	intersection_line_circle(c1,r1,u,v,p1,p2);
+}
+
+struct DD{
+	double rad; int sign; //sign=1区间入,sign=-1区间出
+	bool operator<(const DD &b)const{
+		if( sgn(rad-b.rad)!=0 ) return sgn(rad-b.rad)<0;
+		return sign<b.sign;
+	}
+}dd[1005];
+int cnt;
+//圆c2和圆c1相交的区间(c1是中心圆)     通过pku 1981测试
+void circle_circle_radian(P c1,double r1,P c2,double r2){
+	if( sgn(dist(c1,c2)-r1-r2)>0 ) return ; // 两圆不相交
+	P p1,p2,tmp;
+	intersection_circle_circle(c1,r1,c2,r2,p1,p2);
+	double rad1=atan2(p1.y-c1.y,p1.x-c1.x);
+	double rad2=atan2(p2.y-c1.y,p2.x-c1.x);
+	if( rad1>rad2 ) swap(rad1,rad2);
+	double m=(rad1+rad2)/2;
+	tmp.x=c1.x+r1*cos(m);
+	tmp.y=c1.y+r1*sin(m);
+	if( sgn(dist(tmp,c2)-r2)>0 ) swap(rad1,rad2);
+	if( rad1<=rad2 ) {
+		dd[cnt].rad=rad1,dd[cnt++].sign=1;
+		dd[cnt].rad=rad2,dd[cnt++].sign=-1;
+	}else{
+		dd[cnt].rad=rad1,dd[cnt++].sign=1;
+		dd[cnt].rad=PI,dd[cnt++].sign=-1;
+		dd[cnt].rad=-PI,dd[cnt++].sign=1;
+		dd[cnt].rad=rad2,dd[cnt++].sign=-1;
+	}
+}

@@ -1,0 +1,15 @@
+
+排序:
+class Point implements Comparable//必须加 implements Comparable
+{
+	public int x;
+	public int compareTo(Object obj)
+	{
+		Point b=(Point)obj;
+		if( this.x < b.x ) return -1;
+		if( this.x > b.x ) return 1;
+		return 0;
+	}
+}
+
+Arrays.sort(p, 0 , n);  //快速排序 0~n-1

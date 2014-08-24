@@ -1,0 +1,69 @@
+#include <iostream>
+#include <ctime>
+#include <vector>
+#include <algorithm>
+#include <stdio.h>
+#include <math.h>
+
+using namespace std;
+
+//pku 2986 三角形和圆的面积交
+struct point{  double x,y;   };
+double outer(point a,point b,point c){
+    return (a.x-c.x)*(b.y-c.y)-(a.y-c.y)*(b.x-c.x);
+}
+double inner(point a,point b,point c){
+    return (a.x-c.x)*(b.x-c.x)+(a.y-c.y)*(b.y-c.y);
+}
+double dist(point a,point b){
+    return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+}
+double calcarea(point p1,point p2,point o,double r){
+    double A,B,C,x,y,tS;
+    A=dist(p2,o);
+    B=dist(p1,o);
+    C=dist(p2,p1);
+    if(A<r&&B<r)
+        return outer(p1,p2,o)/2;
+    else if(A<r&&B>=r){  
+        x=(inner(p1,o,p2)+sqrt(r*r*C*C-outer(p1,o,p2)*outer(p1,o,p2)))/C;
+        tS=outer(p1,p2,o)/2;
+        return asin(tS*(1-x/C)*2/r/B)*r*r/2+tS*x/C;
+    }else if(A>=r&&B<r){
+        y=(inner(p2,o,p1)+sqrt(r*r*C*C-outer(p2,o,p1)*outer(p2,o,p1)))/C;
+        tS=outer(p1,p2,o)/2;
+        return asin(tS*(1-y/C)*2/r/A)*r*r/2+tS*y/C;
+    }else if(fabs(outer(p1,p2,o))>=r*C||inner(p2,o,p1)<=0||inner(p1,o,p2)<=0)
+        if(inner(p1,p2,o)<0)
+            if(outer(p1,p2,o)<0)
+                return (-acos(-1.0)-asin(outer(p1,p2,o)/A/B))*r*r/2;
+            else
+                return (acos(-1.0)-asin(outer(p1,p2,o)/A/B))*r*r/2;
+        else
+            return asin(outer(p1,p2,o)/A/B)*r*r/2;
+    else{
+        x=(inner(p1,o,p2)+sqrt(r*r*C*C-outer(p1,o,p2)*outer(p1,o,p2)))/C;
+        y=(inner(p2,o,p1)+sqrt(r*r*C*C-outer(p2,o,p1)*outer(p2,o,p1)))/C;
+        tS=outer(p1,p2,o)/2;
+        return (asin(tS*(1-x/C)*2/r/B)+asin(tS*(1-y/C)*2/r/A))*r*r/2+tS*((y+x)/C-1);
+    }
+}
+double tri_cir_area(P p0,P p1,P p2,P o,double r){ //计算三角形和圆的面积交
+	double sum=0;
+	sum+=calcarea(p0,p1,o,r);
+	sum+=calcarea(p1,p2,o,r);
+	sum+=calcarea(p2,p0,o,r);
+	return fabs(sum);
+}//*********************************************************
+int main(){
+	P p0,p1,p2,o;
+	double r;
+	while(cin>>p0.x>>p0.y>>p1.x>>p1.y>>p2.x>>p2.y>>o.x>>o.y>>r){
+		printf("%.2lf\n",tri_cir_area(p0,p1,p2,o,r));
+	}
+}
+
+
+
+
+

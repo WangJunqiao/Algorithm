@@ -1,0 +1,15 @@
+1，一个有向图要保证每个点都在一个cycle里面  等价于 每个点有且仅有一个入边。
+
+2，平面图网络流的对偶图算法，转化成最小割，用最短路算法求。
+sample 1
+prob：https://code.google.com/codejam/contest/3014486/dashboard#s=p2
+W*H的格子里面，有一些rectangle是block，然后每个格子能够经过1的流量，问从底往上的最大流是多少。
+solu：左右两边添加1*H的block（U和V），然后计算U和V的最短路，两个block Rectangle的距离定义为min（X轴上的距离，Y轴上的距离）
+
+sample 2
+prob：http://acm.hdu.edu.cn/showproblem.php?pid=4280
+给你一个平面图，求最大流。
+solu：裸题，不过这题的麻烦点在于如何把面抠出来，然后建图。计算最短路很简单。可以这样，先把所有点的关联边都按照逆时针排序。然后从每条边出发进行搜索，扣出面来。
+
+
+3，

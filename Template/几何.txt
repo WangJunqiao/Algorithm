@@ -1,0 +1,13 @@
+inline double slope(const DD &a,const DD &b){
+	if( a.x==b.x ) {
+		if( b.y > a.y ) return 1000000000.0;
+		else return -1000000000.0;
+	}
+	return (double)(a.y-b.y)/(a.x-b.x);
+}
+
+inline bool xmult(const DD &p1,const DD &p2,const DD &p3){ //是否能弹出
+	return (p3.y-p2.y)*(p2.x-p1.x) > (p2.y-p1.y)*(p3.x-p2.x);
+}
+
+斜率优化到不能收敛就break....(优化)

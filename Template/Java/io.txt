@@ -1,0 +1,53 @@
+1, 控制台IO
+
+//输入
+Scanner cin = new Scanner(new BufferedInputStream(System.in)); 
+Scanner cin = new Scanner(System.in); 
+int n = cin.nextInt();         相当于   scanf("%d", &n);  
+String s = cin.next();         相当于   scanf("%s", s);    
+double t = cin.nextDouble();   相当于   scanf("%lf", &t); 
+String s = cin.nextLine();     相当于   gets(s);
+判断是否有下一个输入可以用 cin.hasNext() 
+
+//输出
+PrintWriter cout = new PrintWriter(new BufferedOutputStream(System.out)); 
+System.out.println(s);
+
+
+
+2, 文件 IO
+try 
+{
+	Scanner reader = new Scanner( new File("in.txt") );//读入
+	PrintWriter out = new PrintWriter( "out.txt");//写入
+	//***********************下面是处理部分
+	int a;
+	while( reader.hasNext())
+	{
+		a=reader.nextInt();
+		System.out.println(a);
+		out.println(a);
+	}
+	//*****************************
+	out.close();//保存文件 
+}
+catch(IOException e)
+{}
+
+
+
+3, 快一点的IO
+
+PS: 有更快的 IO 方法，在大量输入时，可快10倍以上
+BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
+
+如果需要 读到文件尾，可：
+tree=cin.readLine();
+while(tree!=null) {
+
+}
+BufferedReader cin = new BufferedReader( new FileReader("test.in") );
+默认的文件地址在，工程下
+
+
+

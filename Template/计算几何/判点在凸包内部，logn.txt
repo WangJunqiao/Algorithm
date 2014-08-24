@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+
+typedef long long LL;
+
+struct P{
+	int x, y;
+	P(int _x=0, int _y=0):x(_x), y(_y){};
+	P operator-(const P p)const{
+		return P(x-p.x, y-p.y);
+	}
+};
+
+LL xmult(P p1, P p2){
+	return p1.x*(LL)p2.y-p1.y*(LL)p2.x;
+}
+
+struct ConvexTest{
+	//判断点p是不是 严格 在凸包c内部(边上不算), c是逆时针的凸包点
+	bool inside(P p, vector<P> &c){ 
+		int l=1, r=c.size()-1; //算法是以c[0]为基准做扇形，二分
+		if( xmult(c[l]-c[0], p-c[0])<=0 ) return false;
+		if( xmult(c[r]-c[0], p-c[0])>=0 ) return false;
+		while( l+1<r ){
+			int mid=(l+r)/2;
+			if( xmult(c[mid]-c[0], p-c[0])>=0 ) l=mid;
+			else r=mid;
+		}
+		if( xmult(c[l]-c[0], p-c[0])<0  ) return false;
+		if( xmult(c[r]-c[l], p-c[l])<=0 ) return false;
+		if( xmult(c[0]-c[r], p-c[r])<0  ) return false;
+		return true;
+	}
+}test;
+
+
+int main(){
+	int n, m;
+	while( scanf("%d", &n)!=EOF ){
+		vector<P> A, B;
+		for(int i=0;i<n;i++){
+			P p; scanf("%d %d", &p.x, &p.y);
+			A.push_back(p);
+		}
+		reverse(A.begin(), A.end()); //逆时针
+		scanf("%d", &m);
+		bool can=true;
+		for(int i=0;i<m;i++){
+			P p; scanf("%d %d", &p.x, &p.y);
+			if( test.inside(p, A)==false ) can=false;
+		}
+		if( can ) puts("YES");
+		else puts("NO");
+	}
+}
