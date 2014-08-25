@@ -3,6 +3,7 @@ srm630 div1 500pt： 给你一个后缀数组，要你重构出一个字符串�
 
 solution：
 最重要的一点就是这个后缀数组的顺序是始终固定的，并且都是<的关系，没有=。所以我们要做的就是保证SA[i]和SA[i+1]这n-1个<的关系。
+一开是默认给出n个不同的字符，然后贪心减少
 int SuffixArrayDiv1::minimalCharacters(vector <int> SA) {
     //assume the result string is str
 	int n = SA.size(), ans = n;
@@ -18,6 +19,7 @@ int SuffixArrayDiv1::minimalCharacters(vector <int> SA) {
         //NOTICE: the order of SA is ALWAYS hold!!! So we can use this very important information.
         if (pos[SA[i] + 1] < pos[SA[i + 1] + 1])
             ans --;
+		//如果上面是>的话，那么必须要str[SA[i]] < str[SA[i + 1]]了。
 	}
 	return ans;
 }
