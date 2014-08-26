@@ -52,6 +52,10 @@ int main() {
 
 	int n, k;
 	while (scanf("%d %d", &n, &k) != EOF) {
+		if (n == 1) {
+			puts("1");
+			continue;
+		}
 		if (k > 2) {
 			puts("0");
 			continue;
