@@ -1,0 +1,25 @@
+struct DD{
+	int val,id;
+	DD(int _v=0,int _i=0):val(_v),id(_i){};
+	friend bool operator<(const DD &a,const DD &b){
+		return a.val < b.val;
+	}
+	friend bool operator>(const DD &a,const DD &b){ //给greater<DD>用的
+		return a.val > b.val;
+	}
+};
+
+
+priority_queue<DD> pq1; //默认最大堆 
+priority_queue<DD,vector<DD>,greater<DD> > pq2; //最小堆 
+
+//priority_queue<int,vector<int>,less_equal<int> > pq2;
+/** addition 
+equal_to       相等 
+not_equal_to   不相等 
+less           小于 
+greater        大于 
+less_equal     小于等于 
+greater_equal 大于等 
+这些在所有的排序算法中同样适用 
+*/
