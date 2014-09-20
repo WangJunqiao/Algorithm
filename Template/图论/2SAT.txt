@@ -104,6 +104,6 @@ struct TwoSAT{
 	void _delete(int u){
 		vst[u]=true;
 		for(int p=_adj.list[u];p!=-1;p=E[p].next)
-			if( vst[ E[p].v ]==false ) dfs_topo( E[p].v );
+			if( vst[ E[p].v ]==false ) _delete( E[p].v );
 	}
 }_2sat; //****************Ä£°å½áÊø*********************
