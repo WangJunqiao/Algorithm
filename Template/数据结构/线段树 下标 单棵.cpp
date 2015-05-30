@@ -7,7 +7,7 @@ using namespace std;
 #define LLL (2 * i)
 #define RRR (2 * i + 1)
 
-int v[maxn];
+int v[MAXN];
 
 //单棵线段树模板, zjut1708 n个数,每次对[a,b]区间的数同时+val, 查询[a,b]的和
 typedef long long int64;
@@ -19,7 +19,7 @@ struct _Node{
 	
 	int len() { return r-l+1; }
 	int mid() { return (l+r)>>1; }
-}dd[maxn*5];
+}dd[MAXN*5];
 
 void push_down(int i){ 
 	int64 &add = dd[i].add;
@@ -103,3 +103,4 @@ int main() {
 		}
 	}
 }
+
