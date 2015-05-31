@@ -1,0 +1,23 @@
+1，最重要的“最小割最大流”模型。
+思路就是用最小的代价/联系将两个部分切割开，设想切开之后的网络流量。
+
+样题1：
+srm635 500pt： http://community.topcoder.com/stat?c=problem_statement&pm=13680&rd=16317
+solution： http://community.topcoder.com/stat?c=problem_solution&rm=325513&rd=16317&pm=13680&cr=22714443
+题目：给定一个长度L的整数数组，数字范围[1, N]，现在要把这个数组重标号(每个数字变成A或者B)，满足条件：
+	1，相同的数字只能标成相同的字符
+	2，数字范围[low, N]可以标号成A，范围[1, high]可以标号成B
+	3，low <= high
+标号结束之后，A和B相邻就会使得代价+1，比如重标号后为ABAAAB的话，代价就是3. 问最小的代价可以是多少。
+
+解题思路：总的来说就是要把1~N的数字分成两派（割开），然后使得切断的联系最少（最小割），联系就是长度为L的数组提供的信息。具体看solution的构图代码。
+
+
+
+样题2：
+GCJ 2015 Round2C http://code.google.com/codejam/contest/8234486/dashboard#s=p2
+题目：给定N个句子，每个句子包含若干单词，每个句子可能是English句子或者Franch句子，其中第1句确定是English，第二句确定是Franch，其他不确定。
+问肯定既是English单词又是Franch单词的单词至少有几个。
+
+解题思路：跟上一题一样，也是有一些确定的信息和不确定的信息（上题[1, low)范围确定标成B。。。这题前两个单词确定了语种）。
+总的来说就是要把这些句子分成两派，然后每个句子之间是有联系的（通过单词来体现），最小切割代价。具体构图见：https://github.com/WangJunqiao/Algorithm/blob/master/CodeStorage/GCJ2015-R2C.cpp
