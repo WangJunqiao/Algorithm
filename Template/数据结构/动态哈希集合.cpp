@@ -7,19 +7,19 @@ struct HashSet {
     } **l;
 
     HashSet() {
-        l = (Entry**) malloc(MOD * sizeof (Entry*));
+        l = (Entry **) malloc(MOD * sizeof(Entry *));
         for (int i = 0; i < MOD; i++) l[i] = NULL;
         //printf("HashSet.default constructor callled.\n");
     }
 
     HashSet(const HashSet &set) {
-        l = (Entry**) malloc(MOD * sizeof (Entry*));
+        l = (Entry **) malloc(MOD * sizeof(Entry *));
         for (int i = 0; i < MOD; i++) l[i] = NULL;
         *this = set;
         //printf("HashSet.copy constructor callled.\n");
     }
 
-    HashSet& operator=(const HashSet &set) {
+    HashSet &operator=(const HashSet &set) {
         clear();
         Entry *p, **p1, *p2;
         for (int i = 0; i < MOD; i++) {
@@ -55,7 +55,7 @@ struct HashSet {
     /**********************************************************************
      * 判断相等使用了==操作符 
      **********************************************************************/
-    Entry * find(T k) {
+    Entry *find(T k) {
         int i = hash(k) % MOD;
         for (Entry *tmp = l[i]; tmp; tmp = tmp->p)
             if (tmp->k == k) return tmp;
@@ -79,7 +79,7 @@ struct HashSet {
         Entry *ptr;
         HashSet *set;
 
-        iterator(HashSet* hs = NULL) {
+        iterator(HashSet *hs = NULL) {
             set = hs;
             if (hs) {
                 id = 0;
@@ -99,7 +99,7 @@ struct HashSet {
             return true;
         }
 
-        T & next() {
+        T &next() {
             T &t = ptr->k;
             ptr = ptr->p;
             return t;
