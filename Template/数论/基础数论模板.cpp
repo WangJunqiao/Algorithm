@@ -10,6 +10,9 @@ int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 
 int lcm(int a, int b) { return a / gcd(a, b) * b; }
 
+//mod P¿x¿¿¿¿¿
+// 1/x = pow(x, P - 2), because pow(x, P - 1) % P = 1
+
 //À©Õ¹Å·¼¸ÀïµÃ
 LL ext_gcd(LL a, LL b, LL &x, LL &y) {
     if (b == 0) {
